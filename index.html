@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Real Tap Bot</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HOME -->
+    <div id="homePage">
+
+        <header>
+            <div>
+                <div class="logo">⚡ REAL TAP BOT</div>
+                <div class="username">@Player</div>
+            </div>
+
+            <div class="level">
+                LVL <span id="level">1</span>
+            </div>
+        </header>
+
+        <section class="balance">
+            <small>Your Balance</small>
+
+            <h1>
+                🪙 <span id="coins">0</span>
+            </h1>
+        </section>
+
+        <section class="energy-box">
+
+            <div class="energy-info">
+                <b>⚡ Energy</b>
+
+                <span>
+                    <span id="energy">100</span>/100
+                </span>
+            </div>
+
+            <div class="energy-bar">
+                <div
+                    class="energy-fill"
+                    id="energyFill">
+                </div>
+            </div>
+
+        </section>
+
+        <section class="tap-area">
+
+            <button
+                class="tap-button"
+                id="tapButton">
+                🪙
+            </button>
+
+            <div class="tap-title">
+                Tap to Earn
+            </div>
+
+            <div class="tap-subtitle">
+                +<span id="tapPowerText">1</span>
+                Coin per Tap
+            </div>
+
+            <button
+                class="upgrade-button"
+                onclick="upgradeTap()">
+                ⬆️ Upgrade Tap
+            </button>
+
+            <div class="upgrade-cost">
+                Upgrade Cost:
+                🪙 <span id="upgradeCost">100</span>
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- TASKS -->
+    <div id="tasksPage" style="display:none;">
+
+        <div class="page-header">
+
+            <h2>📋 Tasks</h2>
+
+            <p>
+                Complete tasks and earn coins
+            </p>
+
+        </div>
+
+        <div class="task-card">
+
+            <div class="task-icon">📢</div>
+
+            <div class="task-info">
+
+                <h3>Join our Telegram</h3>
+
+                <p>Reward: 🪙 500 Coins</p>
+
+            </div>
+
+            <button
+                class="task-button"
+                onclick="claimTask(this, 500)">
+
+                JOIN
+
+            </button>
+
+        </div>
+
+        <div class="task-card">
+
+            <div class="task-icon">📱</div>
+
+            <div class="task-info">
+
+                <h3>Follow our Channel</h3>
+
+                <p>Reward: 🪙 1000 Coins</p>
+
+            </div>
+
+            <button
+                class="task-button"
+                onclick="claimTask(this, 1000)">
+
+                JOIN
+
+            </button>
+
+        </div>
+
+        <div class="task-card">
+
+            <div class="task-icon">🎁</div>
+
+            <div class="task-info">
+
+                <h3>Daily Bonus</h3>
+
+                <p>Reward: 🪙 300 Coins</p>
+
+            </div>
+
+            <button
+                class="task-button"
+                onclick="claimTask(this, 300)">
+
+                CLAIM
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- REFERRAL -->
+    <div id="referralPage" style="display:none;">
+
+        <div class="page-header">
+
+            <h2>👥 Invite Friends</h2>
+
+            <p>
+                Invite friends and earn bonus coins!
+            </p>
+
+        </div>
+
+        <div class="referral-card">
+
+            <div class="referral-icon">
+                👥
+            </div>
+
+            <h3>Your Referral Link</h3>
+
+            <div class="referral-link-box">
+
+                <input
+                    id="referralLink"
+                    value="https://t.me/RealTapBot?start=123456"
+                    readonly>
+
+                <button onclick="copyReferral()">
+                    📋
+                </button>
+
+            </div>
+
+            <button
+                class="invite-button"
+                onclick="copyReferral()">
+
+                🚀 Invite Friends
+
+            </button>
+
+        </div>
+
+        <div class="referral-stats">
+
+            <div class="stat-card">
+
+                <div>👥</div>
+
+                <strong id="referralCount">
+                    0
+                </strong>
+
+                <small>
+                    Referrals
+                </small>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div>🪙</div>
+
+                <strong id="referralBonus">
+                    0
+                </strong>
+
+                <small>
+                    Bonus Earned
+                </small>
+
+            </div>
+
+        </div>
+
+        <div class="bonus-info">
+
+            🎁 <b>Referral Bonus</b>
+
+            <p>
+                Invite your friends and earn
+                <b>500 coins</b> for every
+                successful referral.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- LEADERBOARD -->
+    <div id="leaderboardPage" style="display:none;">
+
+        <div class="page-header">
+
+            <h2>🏆 Leaderboard</h2>
+
+            <p>
+                Top players of Real Tap Bot
+            </p>
+
+        </div>
+
+
+        <div class="my-rank">
+
+            <div class="rank-number">
+                #8
+            </div>
+
+            <div class="rank-user">
+
+                <strong>
+                    👤 @Player
+                </strong>
+
+                <small>
+                    Your current rank
+                </small>
+
+            </div>
+
+            <div class="rank-coins">
+                🪙 <span id="myRankCoins">0</span>
+            </div>
+
+        </div>
+
+
+        <div class="leader-row">
+
+            <div class="position">🥇</div>
+
+            <div class="leader-user">
+                <strong>@CryptoKing</strong>
+                <small>Level 12</small>
+            </div>
+
+            <div class="leader-coins">
+                🪙 125,500
+            </div>
+
+        </div>
+
+
+        <div class="leader-row">
+
+            <div class="position">🥈</div>
+
+            <div class="leader-user">
+                <strong>@TapMaster</strong>
+                <small>Level 10</small>
+            </div>
+
+            <div class="leader-coins">
+                🪙 98,250
+            </div>
+
+        </div>
+
+
+        <div class="leader-row">
+
+            <div class="position">🥉</div>
+
+            <div class="leader-user">
+                <strong>@CoinBoss</strong>
+                <small>Level 9</small>
+            </div>
+
+            <div class="leader-coins">
+                🪙 76,800
+            </div>
+
+        </div>
+
+
+        <div class="leader-row">
+
+            <div class="position">4</div>
+
+            <div class="leader-user">
+                <strong>@TapKing</strong>
+                <small>Level 8</small>
+            </div>
+
+            <div class="leader-coins">
+                🪙 65,400
+            </div>
+
+        </div>
+
+
+        <div class="leader-row">
+
+            <div class="position">5</div>
+
+            <div class="leader-user">
+                <strong>@MoneyTap</strong>
+                <small>Level 7</small>
+            </div>
+
+            <div class="leader-coins">
+                🪙 54,200
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROFILE -->
+    <div id="profilePage" style="display:none;">
+
+        <div class="page-header">
+
+            <h2>👤 Profile</h2>
+
+            <p>
+                Your Real Tap Bot account
+            </p>
+
+        </div>
+
+
+        <div class="profile-card">
+
+            <div class="profile-avatar">
+                👤
+            </div>
+
+            <h2>
+                @Player
+            </h2>
+
+            <div class="profile-level">
+                ⭐ Level <span id="profileLevel">1</span>
+            </div>
+
+        </div>
+
+
+        <div class="profile-grid">
+
+            <div class="profile-stat">
+
+                <span>🪙</span>
+
+                <strong id="profileCoins">
+                    0
+                </strong>
+
+                <small>Coins</small>
+
+            </div>
+
+
+            <div class="profile-stat">
+
+                <span>👆</span>
+
+                <strong id="totalTaps">
+                    0
+                </strong>
+
+                <small>Total Taps</small>
+
+            </div>
+
+
+            <div class="profile-stat">
+
+                <span>⚡</span>
+
+                <strong id="profilePower">
+                    1
+                </strong>
+
+                <small>Tap Power</small>
+
+            </div>
+
+
+            <div class="profile-stat">
+
+                <span>👥</span>
+
+                <strong id="profileRefs">
+                    0
+                </strong>
+
+                <small>Referrals</small>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-menu">
+
+            <button>
+                💰 Wallet
+                <span>›</span>
+            </button>
+
+            <button>
+                🎁 Rewards
+                <span>›</span>
+            </button>
+
+            <button>
+                ⚙️ Settings
+                <span>›</span>
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+    <nav class="bottom-nav">
+
+        <button
+            class="nav-item"
+            onclick="showPage('home')">
+            🏠
+            <span>Home</span>
+        </button>
+
+        <button
+            class="nav-item"
+            onclick="showPage('leaderboard')">
+            🏆
+            <span>Rank</span>
+        </button>
+
+        <button
+            class="nav-item"
+            onclick="showPage('tasks')">
+            📋
+            <span>Tasks</span>
+        </button>
+
+        <button
+            class="nav-item"
+            onclick="showPage('referral')">
+            👥
+            <span>Referral</span>
+        </button>
+
+        <button
+            class="nav-item"
+            onclick="showPage('profile')">
+            👤
+            <span>Profile</span>
+        </button>
+
+    </nav>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>

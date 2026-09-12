@@ -1,0 +1,763 @@
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: #050b14;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.app {
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 18px;
+    padding-bottom: 100px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.username {
+    margin-top: 5px;
+    color: #8190a3;
+    font-size: 13px;
+}
+
+.level {
+    background: #12243a;
+    color: #ffffff;
+    padding: 10px 16px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================
+   BALANCE
+========================= */
+
+.balance {
+    text-align: center;
+    margin-top: 38px;
+}
+
+.balance small {
+    color: #8493a5;
+    font-size: 14px;
+}
+
+.balance h1 {
+    margin: 8px 0 0;
+    font-size: 46px;
+    font-weight: 700;
+}
+
+
+/* =========================
+   ENERGY
+========================= */
+
+.energy-box {
+    background: #0c1826;
+    border: 1px solid #14283c;
+    padding: 17px;
+    border-radius: 18px;
+    margin-top: 28px;
+}
+
+.energy-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+}
+
+.energy-info > span {
+    color: #19e889;
+}
+
+.energy-bar {
+    width: 100%;
+    height: 10px;
+    margin-top: 11px;
+    background: #1b2938;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.energy-fill {
+    width: 100%;
+    height: 100%;
+    background: #19e889;
+    border-radius: 20px;
+    transition: width 0.2s ease;
+}
+
+
+/* =========================
+   TAP AREA
+========================= */
+
+.tap-area {
+    text-align: center;
+    margin-top: 38px;
+}
+
+.tap-button {
+    width: 215px;
+    height: 215px;
+
+    border: 7px solid #263c52;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        #ffd83d 0%,
+        #ffb814 55%,
+        #e89400 100%
+    );
+
+    font-size: 72px;
+
+    box-shadow:
+        0 0 25px rgba(255, 190, 30, 0.20),
+        0 0 60px rgba(255, 190, 30, 0.12);
+
+    transition: transform 0.08s ease;
+}
+
+.tap-button:active {
+    transform: scale(0.93);
+}
+
+.tap-title {
+    margin-top: 17px;
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.tap-subtitle {
+    margin-top: 4px;
+    color: #7e8da0;
+    font-size: 13px;
+}
+
+.upgrade-button {
+    display: block;
+    margin: 20px auto 0;
+
+    padding: 14px 26px;
+
+    border: none;
+    border-radius: 15px;
+
+    background: #142b42;
+    color: #ffffff;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.upgrade-button:active {
+    transform: scale(0.97);
+}
+
+.upgrade-cost {
+    margin-top: 9px;
+    color: #7e8da0;
+    font-size: 12px;
+}
+
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-header {
+    margin-top: 10px;
+    margin-bottom: 24px;
+}
+
+.page-header h2 {
+    margin: 0 0 6px;
+    font-size: 27px;
+}
+
+.page-header p {
+    margin: 0;
+    color: #8290a1;
+    font-size: 13px;
+}
+
+
+/* =========================
+   TASKS
+========================= */
+
+.task-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    background: #0c1826;
+
+    border: 1px solid #172a3e;
+
+    border-radius: 18px;
+
+    padding: 15px;
+
+    margin-bottom: 14px;
+}
+
+.task-icon {
+    width: 50px;
+    height: 50px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #122a42;
+
+    border-radius: 14px;
+
+    font-size: 25px;
+}
+
+.task-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-info h3 {
+    margin: 0 0 6px;
+    font-size: 15px;
+}
+
+.task-info p {
+    margin: 0;
+    color: #19e889;
+    font-size: 12px;
+}
+
+.task-button {
+    border: none;
+
+    background: #19e889;
+    color: #03120b;
+
+    padding: 10px 13px;
+
+    border-radius: 11px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.task-button:active {
+    transform: scale(0.95);
+}
+
+.task-button.completed {
+    background: #253442;
+    color: #7f8d9b;
+}
+
+
+/* =========================
+   REFERRAL
+========================= */
+
+.referral-card {
+    background: #0c1826;
+
+    border: 1px solid #172a3e;
+
+    border-radius: 20px;
+
+    padding: 21px;
+
+    text-align: center;
+}
+
+.referral-icon {
+    width: 68px;
+    height: 68px;
+
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #122a42;
+
+    border-radius: 50%;
+
+    font-size: 32px;
+}
+
+.referral-card h3 {
+    margin: 15px 0;
+    font-size: 16px;
+}
+
+.referral-link-box {
+    display: flex;
+
+    width: 100%;
+
+    background: #07111d;
+
+    border: 1px solid #1b3045;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+}
+
+.referral-link-box input {
+    flex: 1;
+
+    min-width: 0;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #9aa9ba;
+
+    padding: 12px;
+
+    font-size: 11px;
+}
+
+.referral-link-box button {
+    width: 48px;
+
+    border: none;
+
+    background: #142b42;
+
+    color: #ffffff;
+
+    font-size: 16px;
+}
+
+.invite-button {
+    width: 100%;
+
+    margin-top: 15px;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #19e889;
+
+    color: #03120b;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.referral-stats {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.stat-card {
+    flex: 1;
+
+    text-align: center;
+
+    background: #0c1826;
+
+    border: 1px solid #172a3e;
+
+    border-radius: 17px;
+
+    padding: 17px;
+}
+
+.stat-card div {
+    font-size: 25px;
+}
+
+.stat-card strong {
+    display: block;
+
+    margin: 6px 0;
+
+    font-size: 20px;
+}
+
+.stat-card small {
+    color: #8290a1;
+    font-size: 11px;
+}
+
+.bonus-info {
+    margin-top: 15px;
+
+    padding: 17px;
+
+    border-radius: 17px;
+
+    background: #12243a;
+
+    color: #d8e2ed;
+
+    font-size: 13px;
+}
+
+.bonus-info p {
+    margin-bottom: 0;
+
+    color: #8796a8;
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   LEADERBOARD
+========================= */
+
+.my-rank {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    background: #12243a;
+
+    border: 1px solid #20384f;
+
+    border-radius: 18px;
+
+    padding: 15px;
+
+    margin-bottom: 15px;
+}
+
+.rank-number {
+    width: 38px;
+
+    text-align: center;
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.rank-user {
+    flex: 1;
+}
+
+.rank-user strong {
+    display: block;
+    font-size: 14px;
+}
+
+.rank-user small {
+    display: block;
+    margin-top: 4px;
+    color: #8290a1;
+    font-size: 11px;
+}
+
+.rank-coins {
+    color: #19e889;
+    font-size: 13px;
+}
+
+.leader-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    background: #0c1826;
+
+    border: 1px solid #172a3e;
+
+    border-radius: 17px;
+
+    padding: 14px;
+
+    margin-bottom: 10px;
+}
+
+.position {
+    width: 35px;
+
+    flex-shrink: 0;
+
+    text-align: center;
+
+    font-size: 18px;
+}
+
+.leader-user {
+    flex: 1;
+}
+
+.leader-user strong {
+    display: block;
+    font-size: 14px;
+}
+
+.leader-user small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #7e8da0;
+
+    font-size: 11px;
+}
+
+.leader-coins {
+    color: #19e889;
+    font-size: 12px;
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile-card {
+    text-align: center;
+
+    background: #0c1826;
+
+    border: 1px solid #172a3e;
+
+    border-radius: 20px;
+
+    padding: 25px;
+}
+
+.profile-avatar {
+    width: 76px;
+    height: 76px;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #142b42;
+
+    border-radius: 50%;
+
+    font-size: 35px;
+}
+
+.profile-card h2 {
+    margin: 12px 0 6px;
+    font-size: 20px;
+}
+
+.profile-level {
+    color: #19e889;
+    font-size: 13px;
+}
+
+.profile-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+    margin-top: 15px;
+}
+
+.profile-stat {
+    background: #0c1826;
+
+    border: 1px solid #172a3e;
+
+    border-radius: 17px;
+
+    padding: 17px;
+
+    text-align: center;
+}
+
+.profile-stat span {
+    display: block;
+    font-size: 24px;
+}
+
+.profile-stat strong {
+    display: block;
+
+    margin: 5px 0;
+
+    font-size: 19px;
+}
+
+.profile-stat small {
+    color: #8290a1;
+    font-size: 11px;
+}
+
+.profile-menu {
+    margin-top: 15px;
+}
+
+.profile-menu button {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border: 1px solid #172a3e;
+
+    background: #0c1826;
+
+    color: #ffffff;
+
+    padding: 16px;
+
+    margin-bottom: 9px;
+
+    border-radius: 15px;
+
+    font-size: 14px;
+}
+
+.profile-menu button span {
+    color: #7e8da0;
+    font-size: 20px;
+}
+
+
+/* =========================
+   BOTTOM NAVIGATION
+========================= */
+
+.bottom-nav {
+    position: fixed;
+
+    left: 50%;
+    bottom: 0;
+
+    transform: translateX(-50%);
+
+    width: min(480px, 100%);
+
+    display: flex;
+
+    justify-content: space-around;
+    align-items: center;
+
+    background: #09121e;
+
+    border-top: 1px solid #1b2a3a;
+
+    padding: 10px 4px;
+
+    z-index: 1000;
+}
+
+.nav-item {
+    flex: 1;
+
+    border: none;
+
+    background: transparent;
+
+    color: #9ba8b7;
+
+    font-size: 19px;
+
+    padding: 2px 0;
+}
+
+.nav-item span {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 10px;
+}
+
+.nav-item:active {
+    transform: scale(0.94);
+}
+
+
+/* =========================
+   SMALL SCREEN
+========================= */
+
+@media (max-width: 360px) {
+
+    .app {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+
+    .tap-button {
+        width: 185px;
+        height: 185px;
+        font-size: 62px;
+    }
+
+    .balance h1 {
+        font-size: 38px;
+    }
+
+    .task-card {
+        padding: 12px;
+    }
+
+    .task-button {
+        padding: 9px 10px;
+    }
+}
