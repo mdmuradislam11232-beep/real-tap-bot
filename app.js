@@ -1,118 +1,245 @@
-let coins = 0;
-
-let energy = 100;
-
-const maxEnergy = 100;
-
-let tapPower = 1;
-
-let upgradeCost = 100;
-
-let level = 1;
-
-let totalTaps = 0;
-
-let referralCount = 0;
-
-let referralBonus = 0;
+/* =====================================
+   REAL TAP BOT
+   Telegram Mini App
+===================================== */
 
 
-const coinsText =
-    document.getElementById("coins");
+/* TELEGRAM */
 
-const energyText =
-    document.getElementById("energy");
-
-const energyFill =
-    document.getElementById("energyFill");
-
-const tapButton =
-    document.getElementById("tapButton");
-
-const levelText =
-    document.getElementById("level");
-
-const tapPowerText =
-    document.getElementById("tapPowerText");
-
-const upgradeCostText =
-    document.getElementById("upgradeCost");
+const tg = window.Telegram?.WebApp;
 
 
-function updateScreen() {
+/* INITIALIZE */
 
-    coinsText.innerText = coins;
+if (tg) {
 
-    energyText.innerText = energy;
+    tg.ready();
 
-    levelText.innerText = level;
+    tg.expand();
 
-    tapPowerText.innerText = tapPower;
+}
 
-    upgradeCostText.innerText = upgradeCost;
+
+/* USER */
+
+let telegramUser = null;
+
+if (tg && tg.initDataUnsafe) {
+
+    telegramUser = tg.initDataUnsafe.user;
+
+}
+
+
+/* USER NAME */
+
+function getUserName() {
+
+    if (!telegramUser) {
+        return "@Player";
+    }
+
+    if (telegramUser.username) {
+
+        return "@" + telegramUser.username;
+
+    }
+
+    if (telegramUser.first_name) {
+
+        return telegramUser.first_name;
+
+    }
+
+    return "@Player";
+}
+
+
+/* PROFILE NAME */
+
+function getFullName() {
+
+    if (!telegramUser) {
+        return "Player";
+    }
+
+    let name = telegramUser.first_name || "";
+
+    if (telegramUser.last_name) {
+
+        name += " " + telegramUser.last_name;
+
+    }
+
+    return name.trim() || "Player";
+}
+
+
+/* DATA */
+
+let coins =
+    Number(localStorage.getItem("coins")) || 0;
+
+let energy =
+    Number(localStorage.getItem("energy"));
+
+if (isNaN(energy)) {
+    energy = 100;
+}
+
+let level =
+    Number(localStorage.getItem("level")) || 1;
+
+let tapPower =
+    Number(localStorage.getItem("tapPower")) || 1;
+
+let refCount =
+    Number(localStorage.getItem("refCount")) || 0;
+
+let taskCompleted =
+    localStorage.getItem("taskCompleted") === "true";
+
+
+/* CONSTANTS */
+
+const MAX_ENERGY = 100;
+
+
+/* UPGRADE COST */
+
+function getUpgradeCost() {
+
+    return 100 * level;
+
+}
+
+
+/* SAVE */
+
+function saveData() {
+
+    localStorage.setItem(
+        "coins",
+        coins
+    );
+
+    localStorage.setItem(
+        "energy",
+        energy
+    );
+
+    localStorage.setItem(
+        "level",
+        level
+    );
+
+    localStorage.setItem(
+        "tapPower",
+        tapPower
+    );
+
+    localStorage.setItem(
+        "refCount",
+        refCount
+    );
+
+    localStorage.setItem(
+        "taskCompleted",
+        taskCompleted
+    );
+
+}
+
+
+/* UPDATE UI */
+
+function updateUI() {
+
+    document.getElementById("coins").textContent =
+        coins.toLocaleString();
+
+    document.getElementById("energy").textContent =
+        energy;
+
+    document.getElementById("level").textContent =
+        level;
+
+    document.getElementById("tapPower").textContent =
+        tapPower;
+
+    document.getElementById("upgradeCost").textContent =
+        getUpgradeCost();
+
+    document.getElementById("profileCoins").textContent =
+        coins.toLocaleString();
+
+    document.getElementById("profileLevel").textContent =
+        level;
+
+    document.getElementById("refCount").textContent =
+        refCount;
+
+
+    /* ENERGY BAR */
+
+    let percentage =
+        (energy / MAX_ENERGY) * 100;
+
+    document.getElementById(
+        "energyFill"
+    ).style.width = percentage + "%";
+
+
+    /* USER */
+
+    document.getElementById(
+        "username"
+    ).textContent = getUserName();
 
 
     document.getElementById(
-        "referralCount"
-    ).innerText = referralCount;
+        "profileName"
+    ).textContent = getFullName();
 
 
     document.getElementById(
-        "referralBonus"
-    ).innerText = referralBonus;
+        "profileUsername"
+    ).textContent = getUserName();
 
 
-    document.getElementById(
-        "myRankCoins"
-    ).innerText = coins;
+    /* REFERRAL */
 
-
-    document.getElementById(
-        "profileCoins"
-    ).innerText = coins;
-
+    let userId =
+        telegramUser?.id || "player";
 
     document.getElementById(
-        "totalTaps"
-    ).innerText = totalTaps;
+        "refLink"
+    ).textContent =
+        "https://t.me/RealTapOfficialBot?start=" +
+        userId;
 
 
-    document.getElementById(
-        "profilePower"
-    ).innerText = tapPower;
+    saveData();
 
-
-    document.getElementById(
-        "profileRefs"
-    ).innerText = referralCount;
-
-
-    document.getElementById(
-        "profileLevel"
-    ).innerText = level;
-
-
-    const percent =
-        (energy / maxEnergy) * 100;
-
-    energyFill.style.width =
-        percent + "%";
 }
 
 
 /* TAP */
 
+const tapButton =
+    document.getElementById("tapButton");
+
+
 tapButton.addEventListener(
     "click",
     function () {
 
-        if (energy < 1) {
+        if (energy <= 0) {
 
-            alert(
-                "⚡ Energy শেষ!"
-            );
+            alert("⚡ Energy শেষ!");
 
             return;
+
         }
 
 
@@ -120,220 +247,232 @@ tapButton.addEventListener(
 
         energy -= 1;
 
-        totalTaps += 1;
 
+        /* Telegram vibration */
 
-        updateScreen();
+        if (
+            tg &&
+            tg.HapticFeedback
+        ) {
 
-    }
-);
-
-
-/* ENERGY RECHARGE */
-
-setInterval(
-    function () {
-
-        if (energy < maxEnergy) {
-
-            energy += 1;
-
-            updateScreen();
+            tg.HapticFeedback.impactOccurred(
+                "light"
+            );
 
         }
 
-    },
-    1000
+
+        updateUI();
+
+    }
 );
 
 
 /* UPGRADE */
 
-function upgradeTap() {
-
-    if (coins < upgradeCost) {
-
-        alert(
-            "🪙 Upgrade করতে " +
-            upgradeCost +
-            " Coin লাগবে!"
-        );
-
-        return;
-    }
-
-
-    coins -= upgradeCost;
-
-    tapPower += 1;
-
-    level += 1;
-
-    upgradeCost =
-        Math.floor(
-            upgradeCost * 1.5
-        );
-
-
-    updateScreen();
-
-
-    alert(
-        "🎉 Upgrade Successful!\n\n" +
-        "⚡ Tap Power: +" +
-        tapPower +
-        "\n🏆 Level: " +
-        level
+const upgradeButton =
+    document.getElementById(
+        "upgradeButton"
     );
-}
 
 
-/* PAGE SWITCH */
+upgradeButton.addEventListener(
+    "click",
+    function () {
 
-function showPage(page) {
-
-    document.getElementById(
-        "homePage"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "tasksPage"
-    ).style.display = "none";
+        let cost =
+            getUpgradeCost();
 
 
-    document.getElementById(
-        "referralPage"
-    ).style.display = "none";
+        if (coins < cost) {
+
+            alert(
+                "🪙 আপনার পর্যাপ্ত Coin নেই!"
+            );
+
+            return;
+
+        }
 
 
-    document.getElementById(
-        "leaderboardPage"
-    ).style.display = "none";
+        coins -= cost;
+
+        level += 1;
+
+        tapPower += 1;
 
 
-    document.getElementById(
-        "profilePage"
-    ).style.display = "none";
+        if (
+            tg &&
+            tg.HapticFeedback
+        ) {
+
+            tg.HapticFeedback.notificationOccurred(
+                "success"
+            );
+
+        }
 
 
-    if (page === "home") {
+        updateUI();
 
-        document.getElementById(
-            "homePage"
-        ).style.display = "block";
     }
+);
 
 
-    if (page === "tasks") {
+/* ENERGY REGENERATION */
 
-        document.getElementById(
-            "tasksPage"
-        ).style.display = "block";
-    }
+setInterval(
+    function () {
 
+        if (energy < MAX_ENERGY) {
 
-    if (page === "referral") {
+            energy += 1;
 
-        document.getElementById(
-            "referralPage"
-        ).style.display = "block";
-    }
+            updateUI();
 
+        }
 
-    if (page === "leaderboard") {
-
-        document.getElementById(
-            "leaderboardPage"
-        ).style.display = "block";
-    }
-
-
-    if (page === "profile") {
-
-        document.getElementById(
-            "profilePage"
-        ).style.display = "block";
-    }
-}
+    },
+    3000
+);
 
 
 /* TASK */
 
-function claimTask(button, reward) {
+const taskButton =
+    document.getElementById(
+        "taskButton"
+    );
 
-    if (
-        button.classList.contains(
-            "completed"
-        )
-    ) {
 
-        return;
+taskButton.addEventListener(
+    "click",
+    function () {
+
+        if (taskCompleted) {
+
+            alert(
+                "✅ Task already completed!"
+            );
+
+            return;
+
+        }
+
+
+        /*
+          Demo reward.
+
+          Later this will be checked
+          from the server.
+        */
+
+        coins += 100;
+
+        taskCompleted = true;
+
+        taskButton.textContent =
+            "Completed";
+
+        updateUI();
+
+
+        alert(
+            "🎉 আপনি 100 Coin পেয়েছেন!"
+        );
+
+    }
+);
+
+
+/* PAGE SYSTEM */
+
+function showPage(pageId) {
+
+    const pages =
+        document.querySelectorAll(
+            ".page"
+        );
+
+
+    pages.forEach(
+        function (page) {
+
+            page.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    const selected =
+        document.getElementById(
+            pageId
+        );
+
+
+    if (selected) {
+
+        selected.classList.add(
+            "active"
+        );
+
     }
 
-
-    coins += reward;
-
-
-    button.innerText =
-        "✓ DONE";
-
-
-    button.classList.add(
-        "completed"
-    );
-
-
-    updateScreen();
-
-
-    alert(
-        "🎉 Task Completed!\n\n+" +
-        reward +
-        " Coins"
-    );
 }
 
 
-/* REFERRAL COPY */
+/* REFERRAL SHARE */
 
-function copyReferral() {
+function shareReferral() {
 
-    const input =
-        document.getElementById(
-            "referralLink"
+    let userId =
+        telegramUser?.id || "player";
+
+
+    let referralLink =
+        "https://t.me/RealTapOfficialBot?start=" +
+        userId;
+
+
+    let text =
+        "🔥 Join Real Tap Bot and start earning Coins!";
+
+
+    let shareUrl =
+        "https://t.me/share/url?url=" +
+        encodeURIComponent(
+            referralLink
+        ) +
+        "&text=" +
+        encodeURIComponent(
+            text
         );
 
 
-    navigator.clipboard
-        .writeText(input.value)
-        .then(
-            function () {
+    if (
+        tg &&
+        tg.openTelegramLink
+    ) {
 
-                alert(
-                    "✅ Referral Link copied!"
-                );
-
-            }
-        )
-        .catch(
-            function () {
-
-                input.select();
-
-                document.execCommand(
-                    "copy"
-                );
-
-                alert(
-                    "✅ Referral Link copied!"
-                );
-
-            }
+        tg.openTelegramLink(
+            shareUrl
         );
+
+    } else {
+
+        window.open(
+            shareUrl,
+            "_blank"
+        );
+
+    }
+
 }
 
 
 /* START */
 
-updateScreen();
+updateUI();
